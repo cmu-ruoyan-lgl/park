@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>停车场收费系统</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="fir_lgl.css">
+    <script src="qrcode.js"></script>
+    <script src="lgl.js"></script>
+</head>
+
+<body>
+
+<!--        动态背景-->
+<video id="v1" autoplay loop muted>
+    <source src="一択彼女加藤恵.mp4" type="video/mp4" sizes="cover" />
+</video>
+
+<!--        声音界面-->
+<audio id="v2" autoplay = "autoplay" loop = "loop" title = "sad" controls="controls" preload="auto">
+    <source src="1.mp3" type="audio/mp3" />
+</audio>
+
+<!--            <at>-->
+<!--                var oQRCode = new QRCode("test", {-->
+<!--                    text : "http://naver.com",-->
+<!--                   width : 128,-->
+<!--                   height : 128-->
+<!--                });-->
+<!--            </at>-->
+
+<!--        输入框-->
+
+<!--<div class="layui-container">-->
+<!--    <form class="layui-form" action="">-->
+<!--        <div class="layui-form-item">-->
+<!--            &lt;!&ndash;            <label class="layui-form-label">请输入车牌号：</label>&ndash;&gt;-->
+<!--            <div class="layui-input-block">-->
+<!--                <input type="text" name="carNum" lay-verify="title" autocomplete="off"class="layui-input">-->
+<!--                &lt;!&ndash;                       placeholder="请输入车牌号"&ndash;&gt;-->
+
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="layui-form-item">-->
+<!--            &lt;!&ndash;            <label class="layui-form-label">请输入出入闸：</label>&ndash;&gt;-->
+<!--            <div class="layui-input-block">-->
+<!--                <select name="inOut" lay-filter="inout">-->
+<!--                    &lt;!&ndash;                    <option value="" selected>请选择出入闸</option>&ndash;&gt;-->
+<!--                    <option value="0">出闸</option>-->
+<!--                    <option value="1">入闸</option>-->
+
+<!--                    <option value="2">入闸2</option>-->
+<!--                    <option value="3">入闸3</option>-->
+<!--                    <option value="4">入闸4</option>-->
+
+<!--                </select>-->
+<!--            </div>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash;        <div class="layui-form-item">&ndash;&gt;-->
+<!--        &lt;!&ndash;            <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>&ndash;&gt;-->
+<!--        &lt;!&ndash;            <button type="reset" class="layui-btn layui-btn-primary">重置</button>&ndash;&gt;-->
+<!--        &lt;!&ndash;        </div>&ndash;&gt;-->
+
+<!--        <table class="layui-hide" id="test"></table>-->
+<!--    </form>-->
+
+<div class="main">
+
+    <hj1>Welcome</hj1>
+
+    <form action="hello.html" method="get">
+
+        <div class="ssr">
+
+            <div class="layui-container">
+
+                <form class="layui-form" action="">
+
+                    <div class="layui-form-item">
+
+                        <div class="layui-input-block" >
+
+                            <input type="text"  placeholder="License Plate Number" style="height: 55px;
+                            width: 350px;
+                            outline:none;
+                            background: rgb(253, 241, 117, 0.7);
+                            margin-top: 30px;
+                            margin-left: -55px;
+                            height: 50px;
+                            font-size: 30px;
+                            border-radius: 10px;" name="carNum" lay-verify="title" autocomplete="off" class="layui-input" required>
+                            <!--                       placeholder="请输入车牌号"-->
+
+                        </div>
+
+                    </div>
+
+                    <div class="layui-form-item">
+                        <!--            <label class="layui-form-label">请输入出入闸：</label>-->
+                        <div class="layui-input-block">
+
+                            <select name="inOut" lay-filter="inout" required style="height: 55px;
+                        width: 350px;
+                        outline:none;
+                        background: rgb(253, 241, 117, 0.7);
+                        margin-top: 30px;
+                        margin-left: -55px;
+                        height: 50px;
+                        font-size: 30px;">
+
+                                <!--<option value="" selected>请选择出入闸</option>-->
+                                <option value="0">出闸</option>
+                                <option value="1">入闸.按次计算</option>
+                                <option value="2">入闸.按小时计算</option>
+                                <option value="3">入闸.按时间段计算</option>
+                                <option value="4">入闸.阶梯计算 </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="layui-form-item">
+
+            <a href="hello.html" target="_self">
+                <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">Submit</button>
+                <!--                    <button type="submit">Submit</button>-->
+            </a>
+
+        </div>
+
+        </from>
+
+</div>
+
+    <div id="qrcode"></div>
+    <script src="jquery-3.5.1.js"></script>
+    <script src="qrcode.js"></script>
+    <script src="layui/layui.all.js"></script>
+    <script type="text/javascript">
+        layui.use(["form", "layer", "table"], function () {
+            var form = layui.form;
+            var layer = layui.layer;
+            var table = layui.table;
+            form.render();
+            table.render({
+                elem: '#test',
+                url: 'http://jusavng.hn3.mofasuidao.cn/parking/records',
+                cols: [[
+                    {field: 'carNum', title: '车牌号'},
+                    {field: 'inOut', title: '出入闸'}
+                ]]
+            });
+            let qrCode = new QRCode(document.getElementById("qrcode"));
+            form.on('submit(demo1)', function (data) {
+                $.ajax({
+                    url: "http://jusavng.hn3.mofasuidao.cn/parking/test",
+                    type: "post",
+                    async: true,
+                    data: JSON.stringify(data.field),
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (data) {
+                        layer.msg(data.msg);
+                        qrCode.clear();
+                        if (!isNaN(data.msg)) {
+                            qrCode.makeCode("http://jusavng.hn3.mofasuidao.cn/pay.html?" + data.msg);
+                        }
+                        table.reload('test', {
+                            url: 'http://jusavng.hn3.mofasuidao.cn/parking/records',
+                            cols: [[
+                                {field: 'carNum', title: '车牌号'},
+                                {field: 'inOut', title: '出入闸'}
+                            ]]
+                        });
+                    },
+                    failed: function (data) {
+                        layer.msg(data);
+                    }
+                })
+                // return false;
+            });
+
+        });
+    </script>
+
+<p style="font-family:arial; margin-top: 13%; color: #ff8343; font-size: 20px;">&copy;  cmu-ruoyan-lgl.github.io </p>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.TblCarMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.dao.TblCarDAO">
+    <!--@mbg.generated-->
+    <!--@Table tbl_car-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="car_num" jdbcType="VARCHAR" property="carNum" />
+    <result column="car_name" jdbcType="VARCHAR" property="carName" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, car_num, car_name
+  </sql>
+  <select id="getRecords" resultType="com.example.demo.dao.TblRecordVO">
+    select tc.car_num as carNum,tr.in_out as inOutNum
+    from tbl_car tc right join tbl_record tr on tc.id = tr.car_id
+  </select>
+  <select id="getRecordById" resultType="com.example.demo.dao.TblRecordVO">
+    select tc.car_num as carNum,tr.in_out as inOutNum ,tr.start_time as inTime, tr.ent_time as outTime
+    from tbl_car tc join tbl_record tr on tc.id = tr.car_id
+    where tr.id = #{id}
+  </select>
+</mapper>

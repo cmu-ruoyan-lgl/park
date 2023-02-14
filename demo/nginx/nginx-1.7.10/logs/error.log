@@ -1,0 +1,3 @@
+2020/12/10 00:42:38 [emerg] 12888#2404: could not build the server_names_hash, you should increase server_names_hash_bucket_size: 32
+2020/12/10 00:47:01 [error] 16752#9152: *8 directory index of "D:/Projects/demo/src/main/resources/static/" is forbidden, client: 127.0.0.1, server: localhost, request: "HEAD / HTTP/1.1", host: "jusavng.hn3.mofasuidao.cn"
+2020/12/10 00:54:01 [error] 16752#9152: *41 CreateFile() "D:/Projects/demo/src/main/resources/static/favicon.ico" failed (2: The system cannot find the file specified), client: 127.0.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "jusavng.hn3.mofasuidao.cn", referrer: "http://jusavng.hn3.mofasuidao.cn/pay.html?%5Bobject+Object%5D&chInfo=ch_share__chsub_CopyLink"

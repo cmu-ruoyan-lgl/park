@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+</head>
+<body>
+<div class="layui-container">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">请输入车牌号：</label>
+            <div class="layui-input-block">
+                <input type="text" name="carNum" lay-verify="title" autocomplete="off" placeholder="请输入车牌号"
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">请输入出入闸：</label>
+            <div class="layui-input-block">
+                <select name="inOut" lay-filter="inout">
+                    <option value="" selected>请选择出入闸</option>
+                    <option value="0">出闸</option>
+                    <option value="1">按次入闸</option>
+                    <option value="2">按小时入闸</option>
+                    <option value="3">按时间段入闸</option>
+                    <option value="4">按阶梯入闸 </option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <button type="submit" class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+        <table class="layui-hide" id="test"></table>
+    </form>
+    <div id="qrcode"></div>
+    <script src="jquery-3.5.1.js"></script>
+    <script src="qrcode.js"></script>
+    <script src="layui/layui.all.js"></script>
+    <script type="text/javascript">
+        layui.use(["form", "layer", "table"], function () {
+            var form = layui.form;
+            var layer = layui.layer;
+            var table = layui.table;
+            form.render();
+            table.render({
+                elem: '#test',
+                url: 'http://jusavng.hn3.mofasuidao.cn/parking/records',
+                cols: [[
+                    {field: 'carNum', title: '车牌号'},
+                    {field: 'inOut', title: '出入闸'}
+                ]]
+            });
+            let qrCode = new QRCode(document.getElementById("qrcode"));
+            form.on('submit(demo1)', function (data) {
+                $.ajax({
+                    url: "http://jusavng.hn3.mofasuidao.cn/parking/test",
+                    type: "post",
+                    async: true,
+                    data: JSON.stringify(data.field),
+                    dataType: "json",
+                    contentType: "application/json",
+                    success: function (data) {
+                        layer.msg(data.msg);
+                        qrCode.clear();
+                        if (!isNaN(data.msg)) {
+                            qrCode.makeCode("http://jusavng.hn3.mofasuidao.cn/pay.html?" + data.msg);
+                        }
+                        table.reload('test', {
+                            url: 'http://jusavng.hn3.mofasuidao.cn/parking/records',
+                            cols: [[
+                                {field: 'carNum', title: '车牌号'},
+                                {field: 'inOut', title: '出入闸'}
+                            ]]
+                        });
+                    },
+                    failed: function (data) {
+                        layer.msg(data);
+                    }
+                })
+                return false;
+            });
+
+        });
+    </script>
+</div>
+
+</body>
+</html>

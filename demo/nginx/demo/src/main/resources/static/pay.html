@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>支付</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script src="jquery-3.5.1.js"></script>
+    <script src="qrcode.js"></script>
+    <script src="layui/layui.all.js"></script>
+</head>
+<body>
+<div class="layui-container">
+    <form class="layui-form" action="" lay-filter="testForm">
+        <div class="layui-form-item">
+            <label class="layui-form-label">车牌号：</label>
+            <div class="layui-input-block">
+                <input type="text" name="carNum" lay-verify="title" autocomplete="off" readonly
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">入闸时间：</label>
+            <div class="layui-input-block">
+                <input type="text" name="inTime" lay-verify="title" autocomplete="off" readonly
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">出闸时间：</label>
+            <div class="layui-input-block">
+                <input type="text" name="outTime" lay-verify="title" autocomplete="off" readonly
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">停车时长：</label>
+            <div class="layui-input-block">
+                <input type="text" name="time" lay-verify="title" autocomplete="off" readonly
+                       class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">停车费用：</label>
+            <div class="layui-input-block">
+                <input type="text" name="io" lay-verify="title" autocomplete="off" readonly
+                       class="layui-input">
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        layui.use(['layer','form'],function (){
+            var form = layui.form,
+                layer= layui.layer;
+            let location = window.location.href;
+            let split = location.split('?');
+            $.ajax({
+                url:"http://jusavng.hn3.mofasuidao.cn/parking/"+split[1],
+                type: "get",
+                async: true,
+                success:function (data){
+                    form.val("testForm",{
+                        "carNum":data.data["carNum"],
+                        "inTime":data.data["inTime"],
+                        "outTime":data.data["outTime"],
+                        "time":data.data["time"]+"小时",
+                        "io":data.data["io"]+"元"
+                    });
+                    form.render();
+                }
+            })
+
+        })
+    </script>
+</div>
+
+<input type="button" style="height: 55px;
+       width: 350px;
+       outline:none;
+       background: rgb(80,231,231);
+       margin-top: 30px;
+       margin-left: 30%;
+       height: 50px;
+       font-size: 30px;
+       border-radius: 10px;" name="close" value="支付成功，请点击退出" onclick="window.close();" />
+
+</body>
+</html>
